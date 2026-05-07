@@ -85,13 +85,6 @@
       margin: 0 auto;
       padding: 80px clamp(20px, 5vw, 40px);
     }
-    @media (max-width: 900px) {
-      .hero {
-        flex-direction: column-reverse;
-        padding: 40px clamp(20px, 5vw, 40px);
-        gap: 32px;
-      }
-    }
     .hero > div { flex: 1; }
     .hero-media {
       flex: 1.2;
@@ -171,12 +164,6 @@
       margin: 0 auto;
       padding: 0 clamp(20px, 5vw, 40px) 80px;
       align-items: start;
-    }
-    @media (max-width: 900px) {
-      .shell {
-        grid-template-columns: 1fr;
-        gap: 32px;
-      }
     }
     .toc {
       position: sticky;
@@ -393,13 +380,92 @@
       transform: translateY(-2px);
       color: var(--primary);
     }
+    /* TOC toggle button – hidden on desktop */
+    .toc-toggle {
+      display: none;
+      width: 100%;
+      padding: 14px 20px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text-main);
+      cursor: pointer;
+      text-align: left;
+    }
+    /* ==================== Tablet (641px – 900px) ==================== */
+    @media (max-width: 900px) {
+      .top nav a { padding: 6px 12px; font-size: 13px; }
+      .hero { flex-direction: column-reverse; gap: 32px; padding: 40px clamp(16px, 4vw, 32px); }
+      .hero h1 { font-size: clamp(26px, 5vw, 36px); }
+      .hero p { font-size: 16px; }
+      .shell { grid-template-columns: 1fr; gap: 32px; padding: 0 clamp(16px, 4vw, 32px) 60px; }
+      .article { padding: clamp(24px, 4vw, 48px); }
+      .article h2 { font-size: clamp(22px, 3vw, 28px); margin-top: 36px; }
+      .article h3 { font-size: clamp(18px, 2.5vw, 22px); }
+    }
+    /* ==================== Mobile (≤ 640px) ==================== */
+    @media (max-width: 640px) {
+      .top { padding: 12px 16px; }
+      .brand span:last-child { font-size: 15px; }
+      .top nav a { padding: 6px 10px; font-size: 12px; }
+      .hero {
+        flex-direction: column-reverse;
+        padding: 24px 16px;
+        gap: 24px;
+      }
+      .hero-media { border-radius: 12px; }
+      .hero h1 { font-size: 24px; margin-bottom: 12px; }
+      .hero p { font-size: 15px; margin-bottom: 20px; }
+      .meta span, .tags span { font-size: 12px; padding: 4px 10px; }
+      .shell {
+        grid-template-columns: 1fr;
+        gap: 20px;
+        padding: 0 16px 48px;
+      }
+      /* TOC becomes collapsible on mobile */
+      .toc {
+        position: static;
+        max-height: none;
+        overflow: visible;
+        padding-right: 0;
+      }
+      .toc-toggle { display: block; }
+      .toc-title { display: none; }
+      .toc ol {
+        display: none;
+        margin-top: 12px;
+        max-height: 50vh;
+        overflow-y: auto;
+        padding: 12px 16px;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+      }
+      .toc.open ol { display: flex; }
+      .article {
+        padding: 24px 16px;
+        border-radius: 12px;
+      }
+      .article h2 { font-size: 22px; margin-top: 32px; margin-bottom: 16px; scroll-margin-top: 80px; }
+      .article h3 { font-size: 18px; margin-top: 24px; scroll-margin-top: 80px; }
+      .article p, .article li { font-size: 15px; line-height: 1.75; }
+      .article pre { padding: 16px; border-radius: 10px; margin: 24px 0; }
+      .article pre code { font-size: 13px; }
+      .article blockquote { padding: 14px 16px; margin: 24px 0; }
+      .article figure { margin: 24px 0; }
+      .article figure img { border-radius: 10px; }
+      .article th, .article td { padding: 8px 10px; font-size: 13px; }
+      .float { width: 40px; height: 40px; bottom: 20px; right: 16px; font-size: 14px; }
+    }
   </style>
 </head>
 <body id="top">
   <header class="top"><a class="brand" href="#top"><span class="mark">A</span><span>Antigravity Guide</span></a><nav><a href="#content">阅读全文</a><a href="https://antigravity-windows-guide.sumeetsxiang.com/" target="_blank" rel="noreferrer">Windows 指南</a></nav></header>
   <main>
     <section class="hero"><div class="hero-media"><img src="./assets/antigravity/cover.png" alt="Google Antigravity"><span class="chip">工具分享</span></div><div><div class="eyebrow">✦ MacOS Setup Guide</div><h1 id="title">Antigravity (MacOS) 深度配置与疑难解答指南</h1><p>面向 Mac 用户的 Antigravity 接入指南，重点解决客户端不走系统代理、账号授权受阻、模型无法加载与首次验证等高频问题。</p><div class="meta" id="meta"></div><div class="tags" id="tags"></div></div></section>
-        <div class="shell" id="content"><aside class="toc"><div class="toc-title">目录</div><ol id="toc"></ol></aside><article class="article" id="article">正在加载文章...</article></div>
+        <div class="shell" id="content"><aside class="toc"><button class="toc-toggle" id="toc-toggle" type="button">目录 ▾</button><div class="toc-title">目录</div><ol id="toc"></ol></aside><article class="article" id="article">正在加载文章...</article></div>
     <a class="float" href="#">↑</a>
   </main>
   <script>
@@ -410,6 +476,22 @@
     function parseFrontmatter(raw){const m=raw.match(/^---[\r\n]+([\s\S]*?)[\r\n]+---[\r\n]+([\s\S]*)$/);const meta={title:"",date:"",tags:[]};if(!m)return{meta,body:raw};const lines=m[1].split(/\r?\n/);for(let i=0;i<lines.length;i++){const idx=lines[i].indexOf(":");if(idx<0)continue;const k=lines[i].slice(0,idx).trim();const v=lines[i].slice(idx+1).trim().replace(/^['"]|['"]$/g,"");if(k==="title")meta.title=v;if(k==="date")meta.date=v;if(k==="tags"){for(let j=i+1;j<lines.length;j++){const t=lines[j].trim();if(t.startsWith("- "))meta.tags.push(t.slice(2).trim());else if(t)break;}}}return{meta,body:m[2].trim()};}
     function render(md){const lines=md.split(/\r?\n/);let html="",toc=[],para=[],quote=[],code=[],table=[],inCode=false,list=null,seen=new Map();const closeP=()=>{if(para.length){html+=`<p>${inline(para.join(" "))}</p>`;para=[]}};const closeQ=()=>{if(quote.length){html+=`<blockquote>${quote.map(x=>`<p>${inline(x)}</p>`).join("")}</blockquote>`;quote=[]}};const closeL=()=>{closeP();if(list){html+=`</${list}>`;list=null}};const closeT=()=>{if(!table.length)return;const rows=table.map(r=>r.split("|").slice(1,-1).map(c=>c.trim()));html+='<div class="table-wrap"><table><thead><tr>'+rows[0].map(c=>`<th>${inline(c)}</th>`).join("")+"</tr></thead><tbody>";rows.slice(2).forEach(r=>html+="<tr>"+r.map(c=>`<td>${inline(c)}</td>`).join("")+"</tr>");html+="</tbody></table></div>";table=[]};const idFor=t=>{const b=slug(t);const n=seen.get(b)||0;seen.set(b,n+1);return n?`${b}-${n}`:b};for(const raw of lines){const line=raw.replace(/\s+$/,"");if(inCode){if(line.startsWith("```")){html+=`<pre><button class="copy" type="button">复制</button><code>${escapeHtml(code.join("\n"))}</code></pre>`;inCode=false;code=[]}else code.push(line);continue}if(line.startsWith("```")){closeP();closeQ();closeL();closeT();inCode=true;continue}if(/^\|.*\|$/.test(line)){closeP();closeQ();closeL();table.push(line);continue}else closeT();if(!line.trim()){closeP();closeQ();closeL();continue}if(line==="---"){closeP();closeQ();closeL();html+="<hr>";continue}const h=/^(#{2,3})\s+(.+)$/.exec(line);if(h){closeP();closeQ();closeL();const text=h[2].trim();const id=idFor(text);toc.push({level:h[1].length,text:text.replace(/[\*`]/g,""),id});html+=`<h${h[1].length} id="${id}">${inline(text)}</h${h[1].length}>`;continue}if(line.startsWith(">")){closeP();closeL();quote.push(line.replace(/^>\s?/,"").trim());continue}const img=/^!\[([^\]]*)\]\(([^)]+)\)/.exec(line.trim());if(img){closeP();closeQ();closeL();const src=img[2].replace(/^\/articles\/antigravity/,"./assets/antigravity");html+=`<figure><img src="${escapeHtml(src)}" alt="${escapeHtml(img[1])}" loading="eager"><figcaption>${escapeHtml(img[1])}</figcaption></figure>`;continue}const ul=/^\s*[-*]\s+(.+)$/.exec(line),ol=/^\s*\d+\.\s+(.+)$/.exec(line);if(ul||ol){closeP();closeQ();const type=ul?"ul":"ol";if(list!==type){closeL();html+=`<${type}>`;list=type}html+=`<li>${inline((ul||ol)[1])}</li>`;continue}para.push(line.trim())}closeP();closeQ();closeL();closeT();return{html,toc}}
     fetch("./article.md").then(r=>r.text()).then(raw=>{const {meta,body}=parseFrontmatter(raw);const out=render(body);document.title=meta.title||document.title;document.getElementById("title").textContent=meta.title;document.getElementById("meta").innerHTML=`<span>${escapeHtml(meta.date)}</span><span>${platform}</span><span>${out.toc.filter(x=>x.level===2).length} 个章节</span>`;document.getElementById("tags").innerHTML=meta.tags.map(t=>`<span>${escapeHtml(t)}</span>`).join("");document.getElementById("toc").innerHTML=out.toc.map(x=>`<li class="${x.level===3?"sub":""}"><a href="#${x.id}">${escapeHtml(x.text)}</a></li>`).join("");document.getElementById("article").innerHTML=out.html;let pendingTarget=null,pendingTimers=[],pendingClearTimer=null;const offsetTop=()=>(document.querySelector(".top")?.offsetHeight||0)+18;const alignTo=el=>{const top=el.getBoundingClientRect().top+window.scrollY-offsetTop();window.scrollTo({top,behavior:"smooth"})};const clearPending=()=>{pendingTarget=null;pendingTimers.forEach(clearTimeout);pendingTimers=[];if(pendingClearTimer){clearTimeout(pendingClearTimer);pendingClearTimer=null}};const setPending=el=>{clearPending();pendingTarget=el;[60,200,500,1000,2000,3500].forEach(ms=>pendingTimers.push(setTimeout(()=>{if(pendingTarget===el)alignTo(el)},ms)));pendingClearTimer=setTimeout(clearPending,5000)};document.querySelectorAll(".article img").forEach(img=>{if(!img.complete)img.addEventListener("load",()=>{if(pendingTarget)alignTo(pendingTarget)},{once:true})});["wheel","touchmove","keydown"].forEach(ev=>window.addEventListener(ev,clearPending,{passive:true}));document.querySelectorAll(".toc a").forEach(link=>link.addEventListener("click",e=>{e.preventDefault();const href=link.getAttribute("href")||"";const id=href.slice(1);const el=document.getElementById(id);if(!el)return;history.replaceState(null,"",href);alignTo(el);setPending(el)}));document.querySelectorAll(".copy").forEach(btn=>btn.addEventListener("click",async()=>{await navigator.clipboard.writeText(btn.nextElementSibling?.innerText||"");btn.textContent="已复制";setTimeout(()=>btn.textContent="复制",1200)}))
+      // TOC toggle for mobile
+      const tocAside = document.querySelector('.toc');
+      const tocBtn = document.getElementById('toc-toggle');
+      tocBtn.addEventListener('click', () => {
+        tocAside.classList.toggle('open');
+        tocBtn.textContent = tocAside.classList.contains('open') ? '目录 ▴' : '目录 ▾';
+      });
+      // Close TOC on mobile when a link is clicked
+      document.querySelectorAll('.toc a').forEach(link => {
+        link.addEventListener('click', () => {
+          if (tocAside.classList.contains('open')) {
+            tocAside.classList.remove('open');
+            tocBtn.textContent = '目录 ▾';
+          }
+        });
+      });
       // Add TOC scroll highlight listener
       const headingElements = Array.from(document.querySelectorAll('.article h2, .article h3'));
       const tocLinks = document.querySelectorAll('.toc a');
