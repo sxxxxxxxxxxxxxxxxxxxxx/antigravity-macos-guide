@@ -162,6 +162,12 @@ php -S localhost:8000
 - Safari 14+
 - 移动端浏览器（iOS Safari, Chrome Mobile）
 
+## 技术支持
+
+如有任何问题或需要一对一技术协助，请扫描下方二维码加入售后群：
+
+![售后群二维码](./assets/antigravity/qrcode.jpg)
+
 ## 许可证
 
 本项目内容仅供参考学习使用。
