@@ -380,6 +380,76 @@
       transform: translateY(-2px);
       color: var(--primary);
     }
+    .qr-preview-card {
+      cursor: zoom-in;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .qr-preview-card:hover {
+      transform: scale(1.04);
+      box-shadow: 0 18px 40px -12px rgba(37, 99, 235, 0.28);
+    }
+    .qr-modal {
+      position: fixed;
+      inset: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      background: rgba(15, 23, 42, 0.75);
+      backdrop-filter: blur(8px);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s ease;
+    }
+    .qr-modal.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .qr-modal-content {
+      width: min(420px, 100%);
+      background: white;
+      border-radius: 24px;
+      padding: 20px;
+      box-shadow: 0 25px 60px rgba(15, 23, 42, 0.35);
+      transform: scale(0.92);
+      transition: transform 0.2s ease;
+    }
+    .qr-modal.active .qr-modal-content {
+      transform: scale(1);
+    }
+    .qr-modal-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+    .qr-modal-close {
+      width: 32px;
+      height: 32px;
+      border: 0;
+      border-radius: 50%;
+      background: #f1f5f9;
+      color: #64748b;
+      cursor: pointer;
+      font-size: 20px;
+      line-height: 1;
+    }
+    .qr-modal-close:hover { background: #e2e8f0; }
+    .qr-modal img {
+      width: 100%;
+      display: block;
+      border-radius: 16px;
+      border: 1px solid var(--border);
+    }
+    .qr-modal-tip {
+      margin: 14px 0 0;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 14px;
+    }
     /* TOC toggle button – hidden on desktop */
     .toc-toggle {
       display: none;
@@ -468,14 +538,43 @@
         <div class="shell" id="content"><aside class="toc"><button class="toc-toggle" id="toc-toggle" type="button">目录 ▾</button><div class="toc-title">目录</div><ol id="toc"></ol></aside><article class="article" id="article">正在加载文章...</article></div>
     <a class="float" href="#">↑</a>
   </main>
+  <div id="qrModal" class="qr-modal" onclick="closeQrModal()">
+    <div class="qr-modal-content" onclick="event.stopPropagation()">
+      <div class="qr-modal-head">
+        <span>微信扫码加入交流群</span>
+        <button class="qr-modal-close" type="button" onclick="closeQrModal()">×</button>
+      </div>
+      <img id="qrModalImg" src="https://sxxxxxxxxxxxxxxxxxxxxx.github.io/picx-images-hosting/售后群二维码.webp" alt="交流群二维码放大图">
+      <p class="qr-modal-tip">请使用微信扫一扫加入交流群</p>
+    </div>
+  </div>
   <script>
     const platform = "MacOS";
+    function openQrModal(src) {
+      document.getElementById("qrModalImg").src = src || "https://sxxxxxxxxxxxxxxxxxxxxx.github.io/picx-images-hosting/售后群二维码.webp";
+      document.getElementById("qrModal").classList.add("active");
+      document.body.style.overflow = "hidden";
+    }
+    function closeQrModal() {
+      document.getElementById("qrModal").classList.remove("active");
+      document.body.style.overflow = "";
+    }
+    document.addEventListener("keydown", event => {
+      if (event.key === "Escape") closeQrModal();
+    });
+    function setupQrPreview() {
+      document.querySelectorAll('.article img[src*="售后群二维码"]').forEach(img => {
+        img.classList.add("qr-preview-card");
+        img.title = "点击放大二维码";
+        img.addEventListener("click", () => openQrModal(img.src));
+      });
+    }
     const escapeHtml = s => String(s ?? "").replace(/[&<>"']/g, c => ({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;" }[c]));
     const inline = s => escapeHtml(s).replace(/`([^`]+)`/g,"<code>$1</code>").replace(/\*\*([^*]+)\*\*/g,"<strong>$1</strong>").replace(/\*([^*]+)\*/g,"<em>$1</em>").replace(/\[([^\]]+)\]\((https?:\/\/[^)]+)\)/g,'<a href="$2" target="_blank" rel="noreferrer">$1 ↗</a>').replace(/(?<!["'])(https?:\/\/[A-Za-z0-9_.\-~%/?&=+#]+)/g,'<a href="$1" target="_blank" rel="noreferrer">$1 ↗</a>');
     const slug = text => encodeURIComponent(text.replace(/[\*`#]/g,"").trim().replace(/\s+/g,"-"));
     function parseFrontmatter(raw){const m=raw.match(/^---[\r\n]+([\s\S]*?)[\r\n]+---[\r\n]+([\s\S]*)$/);const meta={title:"",date:"",tags:[]};if(!m)return{meta,body:raw};const lines=m[1].split(/\r?\n/);for(let i=0;i<lines.length;i++){const idx=lines[i].indexOf(":");if(idx<0)continue;const k=lines[i].slice(0,idx).trim();const v=lines[i].slice(idx+1).trim().replace(/^['"]|['"]$/g,"");if(k==="title")meta.title=v;if(k==="date")meta.date=v;if(k==="tags"){for(let j=i+1;j<lines.length;j++){const t=lines[j].trim();if(t.startsWith("- "))meta.tags.push(t.slice(2).trim());else if(t)break;}}}return{meta,body:m[2].trim()};}
     function render(md){const lines=md.split(/\r?\n/);let html="",toc=[],para=[],quote=[],code=[],table=[],inCode=false,list=null,seen=new Map();const closeP=()=>{if(para.length){html+=`<p>${inline(para.join(" "))}</p>`;para=[]}};const closeQ=()=>{if(quote.length){html+=`<blockquote>${quote.map(x=>`<p>${inline(x)}</p>`).join("")}</blockquote>`;quote=[]}};const closeL=()=>{closeP();if(list){html+=`</${list}>`;list=null}};const closeT=()=>{if(!table.length)return;const rows=table.map(r=>r.split("|").slice(1,-1).map(c=>c.trim()));html+='<div class="table-wrap"><table><thead><tr>'+rows[0].map(c=>`<th>${inline(c)}</th>`).join("")+"</tr></thead><tbody>";rows.slice(2).forEach(r=>html+="<tr>"+r.map(c=>`<td>${inline(c)}</td>`).join("")+"</tr>");html+="</tbody></table></div>";table=[]};const idFor=t=>{const b=slug(t);const n=seen.get(b)||0;seen.set(b,n+1);return n?`${b}-${n}`:b};for(const raw of lines){const line=raw.replace(/\s+$/,"");if(inCode){if(line.startsWith("```")){html+=`<pre><button class="copy" type="button">复制</button><code>${escapeHtml(code.join("\n"))}</code></pre>`;inCode=false;code=[]}else code.push(line);continue}if(line.startsWith("```")){closeP();closeQ();closeL();closeT();inCode=true;continue}if(/^\|.*\|$/.test(line)){closeP();closeQ();closeL();table.push(line);continue}else closeT();if(!line.trim()){closeP();closeQ();closeL();continue}if(line==="---"){closeP();closeQ();closeL();html+="<hr>";continue}const h=/^(#{2,3})\s+(.+)$/.exec(line);if(h){closeP();closeQ();closeL();const text=h[2].trim();const id=idFor(text);toc.push({level:h[1].length,text:text.replace(/[\*`]/g,""),id});html+=`<h${h[1].length} id="${id}">${inline(text)}</h${h[1].length}>`;continue}if(line.startsWith(">")){closeP();closeL();quote.push(line.replace(/^>\s?/,"").trim());continue}const img=/^!\[([^\]]*)\]\(([^)]+)\)/.exec(line.trim());if(img){closeP();closeQ();closeL();const src=img[2].replace(/^\/articles\/antigravity/,"./assets/antigravity");html+=`<figure><img src="${escapeHtml(src)}" alt="${escapeHtml(img[1])}" loading="eager"><figcaption>${escapeHtml(img[1])}</figcaption></figure>`;continue}const ul=/^\s*[-*]\s+(.+)$/.exec(line),ol=/^\s*\d+\.\s+(.+)$/.exec(line);if(ul||ol){closeP();closeQ();const type=ul?"ul":"ol";if(list!==type){closeL();html+=`<${type}>`;list=type}html+=`<li>${inline((ul||ol)[1])}</li>`;continue}para.push(line.trim())}closeP();closeQ();closeL();closeT();return{html,toc}}
-    fetch("./article.md").then(r=>r.text()).then(raw=>{const {meta,body}=parseFrontmatter(raw);const out=render(body);document.title=meta.title||document.title;document.getElementById("title").textContent=meta.title;document.getElementById("meta").innerHTML=`<span>${escapeHtml(meta.date)}</span><span>${platform}</span><span>${out.toc.filter(x=>x.level===2).length} 个章节</span>`;document.getElementById("tags").innerHTML=meta.tags.map(t=>`<span>${escapeHtml(t)}</span>`).join("");document.getElementById("toc").innerHTML=out.toc.map(x=>`<li class="${x.level===3?"sub":""}"><a href="#${x.id}">${escapeHtml(x.text)}</a></li>`).join("");document.getElementById("article").innerHTML=out.html;let pendingTarget=null,pendingTimers=[],pendingClearTimer=null;const offsetTop=()=>(document.querySelector(".top")?.offsetHeight||0)+18;const alignTo=el=>{const top=el.getBoundingClientRect().top+window.scrollY-offsetTop();window.scrollTo({top,behavior:"smooth"})};const clearPending=()=>{pendingTarget=null;pendingTimers.forEach(clearTimeout);pendingTimers=[];if(pendingClearTimer){clearTimeout(pendingClearTimer);pendingClearTimer=null}};const setPending=el=>{clearPending();pendingTarget=el;[60,200,500,1000,2000,3500].forEach(ms=>pendingTimers.push(setTimeout(()=>{if(pendingTarget===el)alignTo(el)},ms)));pendingClearTimer=setTimeout(clearPending,5000)};document.querySelectorAll(".article img").forEach(img=>{if(!img.complete)img.addEventListener("load",()=>{if(pendingTarget)alignTo(pendingTarget)},{once:true})});["wheel","touchmove","keydown"].forEach(ev=>window.addEventListener(ev,clearPending,{passive:true}));document.querySelectorAll(".toc a").forEach(link=>link.addEventListener("click",e=>{e.preventDefault();const href=link.getAttribute("href")||"";const id=href.slice(1);const el=document.getElementById(id);if(!el)return;history.replaceState(null,"",href);alignTo(el);setPending(el)}));document.querySelectorAll(".copy").forEach(btn=>btn.addEventListener("click",async()=>{await navigator.clipboard.writeText(btn.nextElementSibling?.innerText||"");btn.textContent="已复制";setTimeout(()=>btn.textContent="复制",1200)}))
+    fetch("./article.md").then(r=>r.text()).then(raw=>{const {meta,body}=parseFrontmatter(raw);const out=render(body);document.title=meta.title||document.title;document.getElementById("title").textContent=meta.title;document.getElementById("meta").innerHTML=`<span>${escapeHtml(meta.date)}</span><span>${platform}</span><span>${out.toc.filter(x=>x.level===2).length} 个章节</span>`;document.getElementById("tags").innerHTML=meta.tags.map(t=>`<span>${escapeHtml(t)}</span>`).join("");document.getElementById("toc").innerHTML=out.toc.map(x=>`<li class="${x.level===3?"sub":""}"><a href="#${x.id}">${escapeHtml(x.text)}</a></li>`).join("");document.getElementById("article").innerHTML=out.html;setupQrPreview();let pendingTarget=null,pendingTimers=[],pendingClearTimer=null;const offsetTop=()=>(document.querySelector(".top")?.offsetHeight||0)+18;const alignTo=el=>{const top=el.getBoundingClientRect().top+window.scrollY-offsetTop();window.scrollTo({top,behavior:"smooth"})};const clearPending=()=>{pendingTarget=null;pendingTimers.forEach(clearTimeout);pendingTimers=[];if(pendingClearTimer){clearTimeout(pendingClearTimer);pendingClearTimer=null}};const setPending=el=>{clearPending();pendingTarget=el;[60,200,500,1000,2000,3500].forEach(ms=>pendingTimers.push(setTimeout(()=>{if(pendingTarget===el)alignTo(el)},ms)));pendingClearTimer=setTimeout(clearPending,5000)};document.querySelectorAll(".article img").forEach(img=>{if(!img.complete)img.addEventListener("load",()=>{if(pendingTarget)alignTo(pendingTarget)},{once:true})});["wheel","touchmove","keydown"].forEach(ev=>window.addEventListener(ev,clearPending,{passive:true}));document.querySelectorAll(".toc a").forEach(link=>link.addEventListener("click",e=>{e.preventDefault();const href=link.getAttribute("href")||"";const id=href.slice(1);const el=document.getElementById(id);if(!el)return;history.replaceState(null,"",href);alignTo(el);setPending(el)}));document.querySelectorAll(".copy").forEach(btn=>btn.addEventListener("click",async()=>{await navigator.clipboard.writeText(btn.nextElementSibling?.innerText||"");btn.textContent="已复制";setTimeout(()=>btn.textContent="复制",1200)}));
       // TOC toggle for mobile
       const tocAside = document.querySelector('.toc');
       const tocBtn = document.getElementById('toc-toggle');
