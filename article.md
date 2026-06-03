@@ -247,10 +247,14 @@ Marketplace Gallery URL: https://marketplace.visualstudio.com/_apis/public/galle
 
    如果页面提示 `Sorry, this account is ineligible to use Antigravity`，并且下方显示 `Authentication failed`，可以按下面方式尝试修改 Google 账号注册地：
 
-   1. 打开 Google 账号地区修改申请页：https://policies.google.com/country-association-form。
-   2. 将账号地区申请修改为 Antigravity 支持的地区，例如美国、日本、新加坡等。若原本已经是美国但仍提示地区不可用，可尝试改为其他常用节点所在地区。
-   3. 理由选择“其他”，说明自己因工作需要使用 Gemini / Antigravity，需要更新账号地区。
-   4. 提交后等待邮件通知，通常需要约 24 小时。地区生效后再重新打开 Antigravity 测试登录。
+   1. 先打开 Google 条款页查看当前账号关联地区：https://policies.google.com/terms。页面底部通常会显示当前账号对应的国家/地区；如果显示的是中国大陆、中国香港、中国澳门等受限地区，就需要继续处理。
+   2. 打开 Google 账号地区修改申请页：https://policies.google.com/country-association-form。
+   3. 将账号地区申请修改为 Antigravity 支持的地区，例如美国、日本、新加坡等。若原本已经是美国但仍提示地区不可用，可尝试改为其他常用节点所在地区。
+
+   ![Antigravity 支持地区参考](/articles/antigravity/supported-regions.jpg)
+
+   4. 理由选择“其他”，说明自己因工作需要使用 Gemini / Antigravity，需要更新账号地区。
+   5. 提交后等待邮件通知，通常需要约 24 小时。地区生效后再重新打开 Antigravity 测试登录。
 
    可参考英文理由：
 
