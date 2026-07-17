@@ -12,13 +12,31 @@ tags:
 image: /articles/antigravity/cover.png
 ---
 
-## 先看这里：三句话定位问题
+## 🚑 遇到问题先看这里：看图对号入座
 
-> 💡 **如果您只想要原来 VS Code 那种界面**：请下载 **Antigravity IDE**，不要只点官网页面最上面的 **Antigravity 2.0**。2.0 是新的独立桌面应用，界面和旧教程截图不是一回事。
->
-> ⚠️ **如果登录没反应、模型刷不出来、发消息一直转圈**：优先判断为网络没有真正接管到 Antigravity，不要先反复注入账号。
->
-> 🛑 **如果提示 `Sorry, this account is ineligible to use Antigravity`**：优先处理 Google 账号地区、年龄、订阅和资格问题，Cockpit Tools 不能保证绕过官方服务端校验。
+目前大家遇到的绝大多数问题，都是下面这三种报错。**请直接看图，遇到一模一样的报错，点击下方对应链接直接跳转到解决办法：**
+
+<div style="display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 24px; margin-top: 16px;">
+  <div style="flex: 1; min-width: 220px; border: 1px solid #e2e8f0; border-radius: 12px; padding: 16px; text-align: center; background: #fff; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);">
+    <h4 style="margin-top:0; color:#ef4444;">① 账号没资格</h4>
+    <a href="#q0-5-登录报错先按这三类判断"><img src="/articles/antigravity/auth-ineligible-account.png" style="max-height: 140px; object-fit: contain; cursor: pointer; border-radius: 6px; border: 1px solid #f1f5f9;" alt="账号没资格"></a>
+    <p style="font-size: 14px; color: #475569; margin-bottom:0;"><strong>Sorry, this account is ineligible</strong><br><a href="#q0-5-登录报错先按这三类判断" style="color: #2563eb; text-decoration: none; font-weight: bold;">👉 去看：处理资格与地区问题</a></p>
+  </div>
+  <div style="flex: 1; min-width: 220px; border: 1px solid #e2e8f0; border-radius: 12px; padding: 16px; text-align: center; background: #fff; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);">
+    <h4 style="margin-top:0; color:#f59e0b;">② 网络没走通</h4>
+    <a href="#q0-5-登录报错先按这三类判断"><img src="/articles/antigravity/auth-oauth-network-timeout.jpeg" style="max-height: 140px; object-fit: contain; cursor: pointer; border-radius: 6px; border: 1px solid #f1f5f9;" alt="网络没走通"></a>
+    <p style="font-size: 14px; color: #475569; margin-bottom:0;"><strong>oauth2.googleapis.com 连接失败</strong><br><a href="#q0-5-登录报错先按这三类判断" style="color: #2563eb; text-decoration: none; font-weight: bold;">👉 去看：处理底层网络代理</a></p>
+  </div>
+  <div style="flex: 1; min-width: 220px; border: 1px solid #e2e8f0; border-radius: 12px; padding: 16px; text-align: center; background: #fff; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);">
+    <h4 style="margin-top:0; color:#3b82f6;">③ 需人机/年龄验证</h4>
+    <a href="#43-防机器人人机验证必做"><img src="/articles/antigravity/fatmouse/verify-sign-in-again.jpg" style="max-height: 140px; object-fit: contain; cursor: pointer; border-radius: 6px; border: 1px solid #f1f5f9;" alt="反复验证"></a>
+    <p style="font-size: 14px; color: #475569; margin-bottom:0;"><strong>Further action is required</strong><br><a href="#43-防机器人人机验证必做" style="color: #2563eb; text-decoration: none; font-weight: bold;">👉 去看：扫码验证全流程</a></p>
+  </div>
+</div>
+
+> 💡 **除了上面这三个报错，其他常见排雷：**
+> * **如果您只想要原来 VS Code 那种界面**：请下载 **Antigravity IDE**，不要只点官网页面最上面的 **Antigravity 2.0**。
+> * **如果发消息一直转圈、模型刷不出来**：优先判断为网络没有真正接管到 Antigravity，不要先反复注入账号。
 
 ---
 
@@ -276,7 +294,7 @@ Marketplace Gallery URL: https://marketplace.visualstudio.com/_apis/public/galle
 | Cockpit Tools 不知道选 IDE 还是 2.0 | 新版主要对齐 Antigravity IDE | 异常 2.5 |
 | 蓝色 `Retry`，同时有 `400` | 节点/地区/登录状态被拒绝 | 异常 3 |
 | 验证成功后仍反复出现 `Verify / Sign in again` | 年龄验证或客户端登录状态未刷新 | 异常 4 |
-| `daily-cloudcode`、`EOF`、`invalid_grant`、`context deadline exceeded` | 节点质量、OAuth 过期或请求超时 | 异常 5 |
+| 出现 There was an unexpected issue setting up your account. | 节点质量、OAuth 过期或请求超时 | 异常 5 |
 | 扩展市场搜不到插件 | 默认 Open VSX 源不稳定 | 第五章扩展市场 |
 
 ### 异常 0：打开后不是 VS Code 界面，为什么和教程截图不一样？
@@ -399,7 +417,7 @@ Thank you for your understanding and support.
 4. 如果仍然循环，清理浏览器中错误账号的登录状态，确认默认浏览器登录的是目标账号，并等待几分钟后再试。
 5. 仍无法通过时，再使用 Cockpit Tools 重新完成一次 OAuth；Cockpit 只能刷新本地授权状态，不能替代官方年龄和地区资格校验。
 
-### 异常 5：出现 `daily-cloudcode`、`EOF`、`invalid_grant` 或请求超时
+### 异常 5：出现 There was an unexpected issue setting up your account
 
 ![daily-cloudcode 接口返回 EOF 的报错示例](/articles/antigravity/fatmouse/daily-cloudcode-eof.jpg)
 
