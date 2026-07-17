@@ -26,6 +26,7 @@ image: /articles/antigravity/cover.png
 > * **账号没资格**：优先查年龄认证、地区与订阅资格（不是先反复注入）。
 > * **oauth2 连接失败 / 网络超时**：就是客户端没真正走通代理——请按 **第三章网络配置** 处理（Tun / Antify 等）。
 > * **Further action / 扫码验证**：登录阶段的人机验证，见扫码流程；**年龄认证**在「账号没资格」那一条处理。
+> * **对话时报 `400` 且提示 `User location is not supported for the API use.`**：出口地区不被支持，先换日/新等干净节点并重开客户端（见 **异常 3**）。
 > * 只想要原来 VS Code 界面：下载 **Antigravity IDE**，不要只点官网最上面的 **Antigravity 2.0**。
 > * 发消息一直转圈、模型刷不出来：优先当网络未接管，不要先反复注入账号。
 
@@ -292,7 +293,8 @@ Marketplace Gallery URL: https://marketplace.visualstudio.com/_apis/public/galle
 | 发消息一直转圈、按钮一直灰 | 网络未接管或节点不可用 | 异常 1 |
 | 模型列表/模型名称刷不出来 | 节点异常或 Tun / Antify 方案冲突 | 异常 2 |
 | Cockpit Tools 不知道选 IDE 还是 2.0 | 新版主要对齐 Antigravity IDE | 异常 2.5 |
-| 蓝色 `Retry`，同时有 `400` | 节点/地区/登录状态被拒绝 | 异常 3 |
+| 蓝色 `Retry`，同时有 `400` | 先看报错正文再分流 | 异常 3 |
+| 报错里出现 `code: 400` 且含 `User location is not supported` | 当前出口地区/节点不被 API 支持 | **异常 3（地区 400）** |
 | 验证成功后仍反复出现 `Verify / Sign in again` | 年龄验证或客户端登录状态未刷新 | 异常 4 |
 | 大字报错 `There was an unexpected issue setting up your account.` | 节点/登录状态/超时等综合问题 | 异常 5 |
 | 扩展市场搜不到插件 | 默认 Open VSX 源不稳定 | 第五章扩展市场 |
@@ -384,30 +386,57 @@ Thank you for your understanding and support.
 * **排错重点**：需要 VS Code 风格界面时，请选择 **Antigravity IDE**。若工具自动识别到 2.0，但您想跟本教程截图操作，请手动切回 IDE。
 * **提醒**：部分版本附带 Codex 相关能力，与 Antigravity 登录不是一回事。
 
-### 异常 3：蓝色 `Retry` / 发起对话即刻报错
-此为高频综合型报错，核心诱因通常有以下六点，请逐一排查：
+### 异常 3：蓝色 `Retry` / 对话报错 / HTTP 400 {#faq-chat-400}
 
-1. **账号未满 18 岁（年龄限制拦截）**
-   * *表现*：在 Cockpit 的账号列表中，右上角若出现红色的 `unknown` 标识，基本确诊。
-   * *对策*：访问 Google 账号年龄验证页面 https://myaccount.google.com/age-verification?utm_source=p0。页面可能提供证件、自拍或信用卡等验证方式，请根据页面当前提供的选项及自己的真实情况完成验证。
+对话时如果出现报错，**先看两样东西就够定位大半：**
+
+1. **`code` 是多少**（常见是 `400`）
+2. **`message` / 英文说明写了什么**（不要只看 Trajectory ID、TraceID、Headers 这些一长串）
+
+<a id="faq-user-location-400"></a>
+
+#### 先认这种高频 400（地区不被支持）
+
+如果详情里类似下面这样（字段可能略有出入，认关键词即可）：
+
+* `HTTP 400 Bad Request` 或 `"code": 400`
+* `"message": "User location is not supported for the API use."`
+* `"status": "FAILED_PRECONDITION"`
+
+**含义：** 官方按您当前请求出口判断「所在地区不支持该 API」。多数是 **代理节点出口地区不对 / 节点被识别为不支持地区 / 出口不干净**，不一定是账号密码错了。
+
+**处理顺序：**
+1. **立刻换节点**：优先日本、新加坡、台湾、香港等常用且稳定的节点；避免大陆直连、避免脏节点。
+2. 换节点后 **彻底退出 Antigravity（含活动监视器后台）再打开**，重新发一条测试消息。
+3. 保持 **长期固定同一地区节点**，不要对话中途频繁跨国跳 IP。
+4. 若多个干净节点仍是同一句 `User location is not supported`：再查 **Google 账号地区/订阅资格**（见异常 0.5「账号没资格」）。
+5. **不要用 Cockpit 反复硬注入来“绕地区”**——解决不了服务端对 location 的校验。
+
+> 💡 一眼口诀：**看见 `400` + `User location is not supported` → 先换支持地区的干净节点，再重开客户端。**
+
+#### 其他导致 Retry / 发消息失败的常见原因
+
+若不是上面的 location 文案，再按下面排查：
+
+1. **年龄限制（常见于新号）**  
+   Cockpit 角标红色 `unknown` 时，优先：https://myaccount.google.com/age-verification（建议人脸；证件备选；不建议银行卡硬验）。
 
    ![Google 账号年龄验证方式选择页面](/articles/antigravity/fatmouse/google-age-verification-options.jpg)
 
-   * 验证完成后等待几分钟，再刷新 Cockpit 或重新登录 Antigravity。不要提交虚假身份信息，也不要反复高频尝试。
-2. **多开工具引发的数据串联**
-   * *诊断*：若您曾在本机使用过其他第三方开源工具登录过该账号，残留的 Session 易导致状态机混乱。
-   * *对策*：清空相关缓存，严格只通过 Cockpit Tools 作为唯一入口进行统一调度。
-3. **Gmail 服务冲突（关联账号污染）**
-   * *诊断*：有些非 Gmail 结尾的 Google 账号（如用国内邮箱注册），在无意中开通了附属的 Gmail 服务，导致认证身份发生漂移。
-   * *对策*：进入 Google 账户设置 -> 数据和隐私设置 -> 下载或删除您的数据 -> 点击"删除 Google 服务"，将衍生的 Gmail 服务彻底移除，恢复原始邮箱的纯净状态即可。
-4. **Retry 同时伴随 400 报错（节点或登录状态异常）**
-   * *诊断*：这通常代表当前代理节点被拒绝，或登录状态与网络状态不稳定。
-   * *对策*：先切换到其他可用地区节点（如日本、新加坡等），彻底退出 Antigravity 后重新登录，多试几次。如果一直不行，通常说明订阅节点或代理软件质量不佳，建议更换订阅源或代理工具。
-5. **Tun 模式底层冲突**
-   * *诊断*：如果当前使用 Tun，且模型加载、Retry、对话卡死反复出现，可能是虚拟网卡或系统代理规则发生冲突。
-   * *对策*：临时关闭 Tun，改用 Antify + 系统代理方案重新测试；切换前请退出 Antigravity 和代理工具，避免多套方案同时叠加。
-6. **终极原因：账号被官方封杀**
-   * *诊断*：若穷尽上述所有方案均告失败，遗憾地说明该账号已触发 Google 严重红线被执行封禁。近期官方风控趋严，请规范用车。
+2. **多开/历史登录残留**  
+   统一用 Cockpit Tools 规范切号/重登。
+
+3. **Gmail 附属服务冲突（少见）**  
+   非 Gmail 主号后来又开通附属 Gmail，偶发身份错乱时可在 Google 账号设置中检查并移除不再使用的 Gmail 服务。
+
+4. **普通 400 / 节点不稳（没有 location 那句时）**  
+   换日本、新加坡等节点，退出客户端重登；长期不行考虑换订阅/换代理工具。
+
+5. **多套网络方案叠加**  
+   Tun 与 Antify 不要同时硬叠。只留一套后再测。
+
+6. **账号已被严控/封禁**  
+   以上都试过仍各种 Retry，再考虑换干净账号测试。
 
 ### 异常 4：验证成功后仍反复出现 `Verify / Sign in again`
 
