@@ -3,11 +3,11 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Antigravity IDE / 2.0 MacOS 深度配置与疑难解答指南。" />
+  <meta name="description" content="Antigravity IDE / 2.0 macOS 深度配置与疑难解答指南。" />
   <link rel="preload" as="image" href="./assets/antigravity/auth-ineligible-account.png" fetchpriority="high" />
   <link rel="preload" as="image" href="./assets/antigravity/auth-oauth-network-timeout.jpeg" fetchpriority="high" />
   <link rel="preload" as="image" href="./assets/antigravity/fatmouse/verify-sign-in-again.jpg" fetchpriority="high" />
-  <title>Antigravity IDE / 2.0 MacOS 深度配置与疑难解答指南</title>
+  <title>Antigravity IDE / 2.0 macOS 深度配置与疑难解答指南</title>
   <style>
     :root {
       --primary: #2563eb;
@@ -1166,19 +1166,19 @@
 <body id="top">
   <header class="top"><a class="brand" href="#top"><span class="mark"><img src="./assets/icons/antigravity-color.svg" alt="Antigravity"></span><span>Antigravity Guide</span></a><nav><a href="#content">阅读全文</a><a href="https://antigravity-windows-guide.sumeetsxiang.com/" target="_blank" rel="noreferrer">Windows 指南</a></nav></header>
   <main>
-    <section class="hero"><div class="hero-inner"><div class="eyebrow">✦ MacOS Setup Guide</div><h1 id="title">Antigravity IDE / 2.0 (MacOS) 深度配置与疑难解答指南</h1><p>面向 Mac 用户的 Antigravity IDE 与 Antigravity 2.0 接入指南，重点解决版本识别、客户端不走系统代理、账号授权受阻、模型无法加载与首次验证等高频问题。</p><div class="meta" id="meta"></div><div class="tags" id="tags"></div></div><button class="hero-support" type="button" onclick="openQrModal()" aria-label="查看售后群二维码"><span class="hero-support-text"><span class="hero-support-title">遇到问题先加售后群</span><span class="hero-support-desc">扫码进群，安装、路径、登录和验证问题都在群里处理。</span></span><img src="https://sxxxxxxxxxxxxxxxxxxxxx.github.io/picx-images-hosting/售后群二维码.webp" alt="售后群二维码" width="180" height="252" loading="lazy" decoding="async"></button></section>
+    <section class="hero"><div class="hero-inner"><div class="eyebrow">✦ macOS Setup Guide</div><h1 id="title">Antigravity IDE / 2.0 (macOS) 深度配置与疑难解答指南</h1><p>面向 Mac 用户的 Antigravity IDE 与 Antigravity 2.0 接入指南，重点解决版本识别、客户端不走系统代理、账号授权受阻、模型无法加载与首次验证等高频问题。</p><div class="meta" id="meta"></div><div class="tags" id="tags"></div></div><button class="hero-support" type="button" onclick="openQrModal()" aria-label="查看售后群二维码"><span class="hero-support-text"><span class="hero-support-title">遇到问题先加售后群</span><span class="hero-support-desc">扫码进群，安装、路径、登录和验证问题都在群里处理。</span></span><img src="https://sxxxxxxxxxxxxxxxxxxxxx.github.io/picx-images-hosting/售后群二维码.webp" alt="售后群二维码" width="180" height="252" loading="lazy" decoding="async"></button></section>
     <!-- 对号入座：静态首屏，不依赖 article.md，打开即可显示 -->
     <section class="quick-triage-section" id="quick-triage-section">
       <div class="quick-triage article" id="quick-triage">
         <h2>🚑 遇到问题先看这里：看图对号入座</h2>
-        <p>目前大家遇到的绝大多数问题，都是下面这三种报错。<strong>请直接看图，遇到一模一样的报错，点击下方对应链接直接跳转到解决办法：</strong></p>
+        <p>目前大家遇到的绝大多数问题，都是下面这三种报错。<strong>点图可放大对照；点下方蓝色链接跳到对应解决办法。</strong></p>
         <div class="table-wrap">
           <table>
             <thead>
               <tr>
                 <th>🛑 <strong>账号地区/资格不符</strong></th>
                 <th>⚠️ <strong>网络超时/未接管</strong></th>
-                <th>🛂 <strong>人机/年龄验证</strong></th>
+                <th>🛂 <strong>人机扫码验证</strong></th>
               </tr>
             </thead>
             <tbody>
@@ -1208,9 +1208,9 @@
                 <td><strong>Further action is required</strong></td>
               </tr>
               <tr>
-                <td><a href="#faq-auth-ineligible" class="inpage-link">👉 点击查看解决方案</a></td>
-                <td><a href="#network-config" class="inpage-link">👉 点击查看解决方案</a></td>
-                <td><a href="#human-verify" class="inpage-link">👉 点击查看扫码验证流程</a></td>
+                <td><a href="#faq-auth-ineligible" class="inpage-link">👉 点此处理资格/年龄/地区</a></td>
+                <td><a href="#network-config" class="inpage-link">👉 点此按第三章配置网络</a></td>
+                <td><a href="#human-verify" class="inpage-link">👉 点此查看扫码验证流程</a></td>
               </tr>
             </tbody>
           </table>
@@ -1218,11 +1218,13 @@
         <div class="alert-card alert-note">
           <div class="alert-header">
             <svg class="alert-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6"></path><path d="M10 22h4"></path><path d="M15.09 14c.18-.19.33-.42.44-.67.34-.76.77-1.7.77-2.83A4.3 4.3 0 0 0 12 6.25a4.3 4.3 0 0 0-4.3 4.25c0 1.13.43 2.07.77 2.83.11.25.26.48.44.67"></path></svg>
-            <span class="alert-title">除了上面这三个报错，其他常见排雷</span>
+            <span class="alert-title">怎么对号（先看这三句）</span>
           </div>
           <div class="alert-content">
-            <p>• <strong>如果您只想要原来 VS Code 那种界面</strong>：请下载 <strong>Antigravity IDE</strong>，不要只点官网页面最上面的 <strong>Antigravity 2.0</strong>。</p>
-            <p>• <strong>如果发消息一直转圈、模型刷不出来</strong>：优先判断为网络没有真正接管到 Antigravity，不要先反复注入账号。</p>
+            <p>• <strong>账号没资格</strong>：先查年龄认证、地区与订阅资格，不要先反复注入。</p>
+            <p>• <strong>oauth2 连接失败 / 网络超时</strong>：就是客户端没真正走通代理——请按 <a href="#network-config" class="inpage-link"><strong>第三章网络配置</strong></a> 处理（Tun / Antify 等）。</p>
+            <p>• <strong>Further action / 扫码</strong>：登录阶段人机验证，走扫码流程；年龄认证在「账号没资格」那条处理。</p>
+            <p>• 只要 VS Code 界面：下 <strong>Antigravity IDE</strong>；发消息一直转圈：优先当网络未接管。</p>
           </div>
         </div>
       </div>
@@ -1247,7 +1249,7 @@
     </div>
   </div>
   <script>
-    const platform = "MacOS";
+    const platform = "macOS";
     function openImageModal(src, alt, isQr) {
       const modal = document.getElementById("qrModal");
       const modalContent = modal.querySelector(".qr-modal-content");
