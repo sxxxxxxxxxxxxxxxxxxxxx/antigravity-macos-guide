@@ -20,7 +20,8 @@
       --radius: 16px;
     }
     * { box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
+    /* 长文+多图时 CSS smooth 会与 JS 跳转叠卡，目录跳转改用瞬时定位 */
+    html { scroll-behavior: auto; }
     body {
       margin: 0;
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
@@ -33,14 +34,22 @@
       position: sticky;
       top: 0;
       z-index: 50;
-      background: rgba(255, 255, 255, 0.85);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
+      /* 实色顶栏：滚动时 blur 开销大，易与目录跳转抢帧 */
+      background: rgba(255, 255, 255, 0.97);
       border-bottom: 1px solid var(--border);
       display: flex;
       justify-content: space-between;
       align-items: center;
       padding: 16px clamp(20px, 5vw, 40px);
+    }
+    @supports ((-webkit-backdrop-filter: blur(12px)) or (backdrop-filter: blur(12px))) {
+      @media (min-width: 901px) and (hover: hover) {
+        .top {
+          background: rgba(255, 255, 255, 0.88);
+          backdrop-filter: blur(10px);
+          -webkit-backdrop-filter: blur(10px);
+        }
+      }
     }
     .brand {
       display: flex;
@@ -316,7 +325,7 @@
       outline: 2px solid var(--primary);
       outline-offset: 3px;
     }
-    /* 长文性能：屏外插图延后绘制（标题不启用，避免影响目录滚动定位） */
+    /* 插图不再用 content-visibility:auto：首次点目录滚动时会集中布局/解码导致明显卡顿 */
     #article figure {
       content-visibility: visible;
     }
@@ -1705,12 +1714,11 @@
         const observeArticleImgs = () => {
           document.querySelectorAll("#article figure img").forEach(img => io.observe(img));
         };
-        observeArticleImgs();
-        // 正文异步渲染后可再次调用
+        // 不在首次 setup 时立刻 observe 空列表/抢主线程；等正文注入后再调
         window.__observeArticleImgs = observeArticleImgs;
       }
     }
-    // 首屏静态表格立刻可放大，不必等正文加载
+    // 只绑点击委托；图片观察延后到正文就绪
     setupImagePreview();
     const escapeHtml = s => String(s ?? "").replace(/[&<>"']/g, c => ({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;" }[c]));
     const fixAsset = src => String(src || "").replace(/^\/articles\/antigravity/, "./assets/antigravity");
@@ -1922,44 +1930,35 @@
       }
       return {triage:triageLines.join("\n"),rest:restLines.join("\n")};
     }
-    // —— 交互：页内跳转（避免多次 smooth 重滚导致卡顿）——
-    let pendingTarget = null, pendingTimers = [], pendingClearTimer = null;
+    // —— 交互：页内跳转（瞬时定位；禁止二次重滚）——
     let isProgrammaticScroll = false;
     let programmaticTimer = null;
     let tocLinksCache = [];
     const offsetTop = () => (document.querySelector(".top")?.offsetHeight || 0) + 12;
-    const markProgrammatic = (ms = 500) => {
+    const markProgrammatic = (ms = 200) => {
       isProgrammaticScroll = true;
       clearTimeout(programmaticTimer);
       programmaticTimer = setTimeout(() => { isProgrammaticScroll = false; }, ms);
     };
-    const alignTo = (el, behavior = "smooth") => {
+    // 只做一次瞬时定位。不再 setPending 二次校正：
+    // 正文 lazy 图未加载完时，旧逻辑几乎每次都会在延迟后再滚一次 → 明显卡顿。
+    const alignTo = (el) => {
       if (!el) return;
-      const top = Math.max(0, el.getBoundingClientRect().top + window.scrollY - offsetTop());
-      markProgrammatic(behavior === "smooth" ? 700 : 80);
-      window.scrollTo({ top, behavior });
+      const root = document.documentElement;
+      const body = document.body;
+      const prevRoot = root.style.scrollBehavior;
+      const prevBody = body.style.scrollBehavior;
+      root.style.scrollBehavior = "auto";
+      body.style.scrollBehavior = "auto";
+      const top = Math.max(0, el.getBoundingClientRect().top + window.pageYOffset - offsetTop());
+      markProgrammatic(220);
+      // 双写兼容不同浏览器滚动容器
+      root.scrollTop = top;
+      body.scrollTop = top;
+      window.scrollTo(0, top);
+      root.style.scrollBehavior = prevRoot;
+      body.style.scrollBehavior = prevBody;
     };
-    const clearPending = () => {
-      pendingTarget = null;
-      pendingTimers.forEach(clearTimeout);
-      pendingTimers = [];
-      if (pendingClearTimer) { clearTimeout(pendingClearTimer); pendingClearTimer = null; }
-    };
-    // 仅在布局可能因懒加载图变化时，做一次瞬时校正（不再 4 次 smooth 连滚）
-    const setPending = (el) => {
-      clearPending();
-      pendingTarget = el;
-      pendingTimers.push(setTimeout(() => {
-        if (pendingTarget !== el) return;
-        const drift = Math.abs(el.getBoundingClientRect().top - offsetTop());
-        if (drift > 16) alignTo(el, "auto");
-      }, 320));
-      pendingClearTimer = setTimeout(clearPending, 600);
-    };
-    ["wheel", "touchmove", "keydown"].forEach(ev => window.addEventListener(ev, () => {
-      clearPending();
-      isProgrammaticScroll = false;
-    }, { passive: true }));
 
     const tocAside = document.querySelector(".toc");
     const tocBtn = document.getElementById("toc-toggle");
@@ -1976,20 +1975,25 @@
       if (!el) { try { el = document.getElementById(encodeURIComponent(raw)); } catch (_) {} }
       if (!el) return false;
       history.replaceState(null, "", href);
-      if (fromToc && tocAside.classList.contains("open")) {
+      // 仅移动端折叠目录关闭时等 1 帧；桌面侧栏目录立即跳
+      let closedMobileToc = false;
+      if (fromToc && tocAside && tocAside.classList.contains("open")) {
         tocAside.classList.remove("open");
         tocBtn.textContent = "目录 ▾";
+        closedMobileToc = true;
       }
-      // 距离较远时 smooth 一次即可；过近用 auto 更干脆
-      const dist = Math.abs(el.getBoundingClientRect().top - offsetTop());
-      alignTo(el, dist > 80 ? "smooth" : "auto");
-      setPending(el);
+      if (closedMobileToc) {
+        requestAnimationFrame(() => alignTo(el));
+      } else {
+        alignTo(el);
+      }
       return true;
     };
 
     document.addEventListener("click", e => {
       const link = e.target.closest('a[href^="#"]');
       if (!link) return;
+      if (link.classList.contains("float")) return;
       const href = link.getAttribute("href") || "";
       if (href === "#" || href.length < 2) return;
       const fromToc = !!link.closest(".toc");
@@ -2086,7 +2090,7 @@
             else if (linkBottom > containerBottom) tocAside.scrollTop = linkBottom - tocAside.offsetHeight + 20;
           }
         }
-        if (circle && circumference) {
+        if (!isProgrammaticScroll && circle && circumference) {
           const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
           if (totalHeight > 0) {
             const progress = window.scrollY / totalHeight;
@@ -2118,19 +2122,19 @@
             document.getElementById("tags").innerHTML = (meta.tags || []).map(t => "<span>" + escapeHtml(t) + "</span>").join("");
             document.getElementById("toc").innerHTML = out.toc.map(x => '<li class="' + (x.level === 3 ? "sub" : "") + '"><a href="#' + x.id + '">' + escapeHtml(x.text) + "</a></li>").join("");
             document.getElementById("article").innerHTML = out.html;
+            void document.getElementById("article").offsetHeight;
             headingElements = Array.from(document.querySelectorAll("#article h2[id], #article h3[id]"));
             tocLinksCache = Array.from(document.querySelectorAll(".toc a"));
-            setupImagePreview();
-            // 延后挂图片观察，避免与首屏目录点击抢主线程
+            // 图片观察再延后，保证用户打开后第一下点目录不被 IO/解码干扰
             setTimeout(() => {
               if (typeof window.__observeArticleImgs === "function") window.__observeArticleImgs();
-            }, 800);
+            }, 2000);
             if (location.hash && location.hash.length > 1) {
               // 首屏带 hash：用瞬时定位，避免开场 smooth 卡顿
               requestAnimationFrame(() => {
                 const el = document.getElementById(location.hash.slice(1))
                   || (() => { try { return document.getElementById(decodeURIComponent(location.hash.slice(1))); } catch (_) { return null; } })();
-                if (el) alignTo(el, "auto");
+                if (el) alignTo(el);
               });
             }
           } catch (err) {
