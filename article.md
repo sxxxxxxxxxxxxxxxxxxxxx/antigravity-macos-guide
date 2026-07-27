@@ -9,7 +9,7 @@ tags:
   - macOS
   - Antigravity IDE
   - Antigravity 2.0
-image: /articles/antigravity/cover.png
+image: ./assets/antigravity/cover.png
 ---
 
 ## 🚑 遇到问题先看这里：看图对号入座
@@ -18,7 +18,7 @@ image: /articles/antigravity/cover.png
 
 | 🛑 **账号地区/资格不符** | ⚠️ **网络超时/未接管** | 🛂 **人机扫码验证** |
 | :---: | :---: | :---: |
-| [![账号没资格](/articles/antigravity/auth-ineligible-account.png)](#faq-auth-ineligible) | [![网络超时](/articles/antigravity/auth-oauth-network-timeout.jpeg)](#network-config) | [![人机验证](/articles/antigravity/fatmouse/verify-sign-in-again.jpg)](#human-verify) |
+| [![账号没资格](./assets/antigravity/auth-ineligible-account.png)](#faq-auth-ineligible) | [![网络超时](./assets/antigravity/auth-oauth-network-timeout.jpeg)](#network-config) | [![人机验证](./assets/antigravity/fatmouse/verify-sign-in-again.jpg)](#human-verify) |
 | **Sorry, this account is ineligible** | **There was an unexpected issue setting up your account.** | **Further action is required** |
 | [👉 点此处理地区/资格/年龄](#faq-auth-ineligible) | [👉 点此按第三章配置网络](#network-config) | [👉 点此查看扫码验证流程](#human-verify) |
 
@@ -113,7 +113,7 @@ Antigravity IDE 和 Antigravity 2.0 的底层网络请求都可能不会完整�
 
    * 保存配置，呈现如下状态：
    
-   ![Antify 保存好 Proxies 配置的截图](/articles/antigravity/macos/image1.png) 
+   ![Antify 保存好 Proxies 配置的截图](./assets/antigravity/macos/image1.png) 
 
 5. **配置应用分流规则（Rules）**：
    点击左侧菜单的 `Rules`，选择 `Add Rule`。打开 Mac 的 Finder（访达），进入"应用程序"目录，将您实际使用的客户端图标直接拖入 Antify 界面中央的虚线框内。在 `Proxy Server` 下拉菜单中，选择您刚才创建的节点并保存。
@@ -121,9 +121,9 @@ Antigravity IDE 和 Antigravity 2.0 的底层网络请求都可能不会完整�
    * 如果您使用的是 **Antigravity 2.0**，请拖入 Antigravity 2.0 对应的应用图标。
    * 如果两者都安装且都会使用，建议分别添加两条规则，避免只代理了其中一个客户端。
 
-   ![Antify 左侧选择 Rules 并点击 Add Rule 的界面截图](/articles/antigravity/macos/image2.png) 
-   ![Antify 添加 Rule 时拖拽 App 的虚线框截图](/articles/antigravity/macos/image3.png) 
-   ![Antify 添加完成 Antigravity 规则的截图](/articles/antigravity/macos/image4.png) 
+   ![Antify 左侧选择 Rules 并点击 Add Rule 的界面截图](./assets/antigravity/macos/image2.png) 
+   ![Antify 添加 Rule 时拖拽 App 的虚线框截图](./assets/antigravity/macos/image3.png) 
+   ![Antify 添加完成 Antigravity 规则的截图](./assets/antigravity/macos/image4.png) 
 
 6. **连通性校验**：回到 `Proxies` 界面，点击刚刚创建的节点左侧的 **测速 (Latency)** 按钮。若显示具体延迟毫秒数，证明链路已打通；若无反应，请仔细核对步骤 4 中的协议与端口号是否填错。
    > **⚠️ 核心注意**：采用此方案后，每次使用 Antigravity 时，都必须保持 Antify 软件处于后台运行状态。
@@ -154,7 +154,7 @@ Antigravity IDE 和 Antigravity 2.0 的底层网络请求都可能不会完整�
 > 🔄 **新版工具说明：** 请从 GitHub Releases 下载**最新版**再操作（以页面最新包为准）。新版已对齐官方 **Antigravity IDE** 路径与相关 OAuth 状态读写。想沿用 VS Code 风格界面时请用 **Antigravity IDE**，不要和 2.0 混路径。
 
 1. **下载工具**：访问 https://github.com/jlcodes99/cockpit-tools/releases ，在 `Assets` 中下载最新的 macOS **universal `.dmg`** 安装包。
-   ![Github 上 Cockpit Tools 下载列表的截图](/articles/antigravity/macos/image5.png) 
+   ![Github 上 Cockpit Tools 下载列表的截图](./assets/antigravity/macos/image5.png) 
 
 2. **安装与安全放行**：将图标拖入"应用程序"完成安装。
     > **Mac 特别提示**：由于是第三方开发者工具，首次运行会被 Mac 拦截。请打开 `系统设置 -> 隐私与安全性`，向下滚动找到被拦截的 Cockpit 提示，点击"仍要打开"并输入电脑密码放行。
@@ -182,21 +182,21 @@ Antigravity IDE 和 Antigravity 2.0 的底层网络请求都可能不会完整�
 
 
 3. **初始化设置**：打开 Cockpit Tools，点击左下角的齿轮/设置图标，将界面语言切换为"中文"。
-   ![Cockpit Tools 界面左侧底部设置按钮的截图](/articles/antigravity/macos/image6.png) 
+   ![Cockpit Tools 界面左侧底部设置按钮的截图](./assets/antigravity/macos/image6.png) 
 
 4. **绑定授权**：在左侧应用列表中选中 `Antigravity IDE` 或 `Antigravity` 图标。点击界面上方的"添加账号"（或蓝色的 `+` 号），选择 **"开始 OAuth 授权"**。新版 Cockpit Tools 的 Antigravity 集成主要面向官方 **Antigravity IDE**；如果您的目标是新式 Antigravity 2.0，请不要套用旧版 IDE 的截图和路径判断。随后在弹出的浏览器窗口中完成 Google 登录。
-   ![Cockpit Tools 界面左侧 Antigravity 图标被选中的截图](/articles/antigravity/macos/image7.png) 
-   ![Cockpit Tools 顶部刷新旁边的加号按钮截图](/articles/antigravity/macos/image8.png) 
-   ![Cockpit Tools 添加账号弹窗中 开始 OAuth 授权 按钮的截图](/articles/antigravity/macos/image9.png) 
+   ![Cockpit Tools 界面左侧 Antigravity 图标被选中的截图](./assets/antigravity/macos/image7.png) 
+   ![Cockpit Tools 顶部刷新旁边的加号按钮截图](./assets/antigravity/macos/image8.png) 
+   ![Cockpit Tools 添加账号弹窗中 开始 OAuth 授权 按钮的截图](./assets/antigravity/macos/image9.png) 
 
 5. **唤醒客户端**：授权成功后返回工具，在账号卡片下方点击 **"播放 (启动)"** 按钮。
-   ![Cockpit Tools 账号列表中点击播放按钮的截图](/articles/antigravity/macos/image10.png) 
+   ![Cockpit Tools 账号列表中点击播放按钮的截图](./assets/antigravity/macos/image10.png) 
    此时系统会弹窗提示"未找到应用程序路径"，请点击选择按钮旁边的 **刷新** 标识，随后点击 **保存**。新版 Cockpit Tools 已适配官方重命名后的 Mac 应用 `/Applications/Antigravity IDE.app`，也能从旧 macOS 路径配置迁移到当前路径。如果自动识别不准，请手动选择 **Antigravity IDE.app**。若您的目标是旧版 VS Code 风格界面，请不要误选成新的 Antigravity 2.0 应用。Antigravity IDE 将被强制唤醒或重启。
-   ![未找到应用程序路径弹窗中 点击刷新/重置按钮的截图](/articles/antigravity/macos/image11.png) 
-   ![未找到应用程序路径弹窗中 点击保存按钮的截图](/articles/antigravity/macos/image12.png) 
+   ![未找到应用程序路径弹窗中 点击刷新/重置按钮的截图](./assets/antigravity/macos/image11.png) 
+   ![未找到应用程序路径弹窗中 点击保存按钮的截图](./assets/antigravity/macos/image12.png) 
 
 6. **验证载入**：观察客户端界面。Antigravity IDE 通常会在顶部或右侧出现模型切换下拉菜单；Antigravity 2.0 则可能表现为可以正常进入项目、创建 Agent 或发起对话。只要账号状态能被识别并进入可对话状态，即代表本地授权状态写入成功。若仍提示没资格或认证错误，请按 FAQ 里的三类报错继续判断，不要反复强行注入。
-   ![Antigravity 界面顶部模型选择下拉框（如 Gemini 3.1 Pro）的截图](/articles/antigravity/macos/image13.png) 
+   ![Antigravity 界面顶部模型选择下拉框（如 Gemini 3.1 Pro）的截图](./assets/antigravity/macos/image13.png) 
 
 ### 4.3 防机器人人机验证（必做） {#human-verify}
 
@@ -204,44 +204,79 @@ Antigravity IDE 和 Antigravity 2.0 的底层网络请求都可能不会完整�
 
 1. 登录时如果看到类似下图提示 `Further action is required to use Antigravity`，请点击 `Verify` 或 `Sign in again` 继续。
 
-   ![登录阶段出现的 Further action / Verify 验证界面](/articles/antigravity/fatmouse/verify-sign-in-again.jpg)
+   ![登录阶段出现的 Further action / Verify 验证界面](./assets/antigravity/fatmouse/verify-sign-in-again.jpg)
 
-2. 页面通常会进入**扫码验证**流程。  
-   > 📌 **过时说明：** 以前常见的「输入 +86 手机号收短信」路径目前**基本不可用/成功率极低**，请不要再把希望寄托在国内号短信接码上。当前主流就是 **扫码 + Google 官方验证页**。
+2. **验证双通道选择：推荐使用下方两种最可靠的方案**
 
-3. **扫码前先对齐环境（很关键）**
-   * 手机与 Mac 尽量使用**同一干净节点、同一出口 IP**（验证场景下很多人使用同一 US 节点以保持一致；这和「改 Google 账号地区时不建议一上来硬申美国」是两件事）。
-   * 准备 **Android 手机**。**强烈推荐 Google Pixel、三星，以及带完整 Google 框架的机型（部分小米等开启谷歌基础服务后也可）**。
-   * 手机安装并登录 **Google App / Google 服务**，与 Mac 上正在验证的 Google 账号保持一致。
-   * 部分国产系统需开启「Google 基础服务 / 谷歌基础服务管理」。
+---
 
-   ![安卓手机开启 Google 基础服务](/articles/antigravity/fatmouse/android-google-services.jpg)
+### 💡 通道一（推荐）：谷歌云 Cloud Shell 短信验证通道（支持国内 +86 手机号）
 
-4. **推荐扫码方式**
-   * 使用 Google App 自带的 **Google 智能镜头（Google Lens）** 扫 Mac 上的二维码，==不要用微信或普通相机==。
-   * 识别后打开对应链接，按 Google 页面提示完成确认。
+> 🌟 **核心原理**：Antigravity 与谷歌云 (Google Cloud) 共享底层的身份验证系统。只要您的 Google 账号在谷歌云顺利完成手机号验证，Antigravity 即可**同步全自动过关**！该方法完整支持绑定中国大陆 (+86) 手机号接收验证码。
 
-   ![Google App 搜索框右侧的 Google 智能镜头入口](/articles/antigravity/fatmouse/android-google-lens.jpg)
+1. **访问谷歌云验证授权入口**：
+   建议在浏览器打开**无痕模式**，访问：[https://docs.cloud.google.com/docs/authentication?hl=zh-cn&cloudshell=true#service_accounts](https://docs.cloud.google.com/docs/authentication?hl=zh-cn&cloudshell=true#service_accounts)。登录您的目标 Google 账号。
 
-   ![安卓手机确认由本人发起验证并继续](/articles/antigravity/fatmouse/android-google-confirm.jpg)
+2. **激活 Cloud Shell 触发验证**：
+   登录后刷新页面，滑动到页面中下方，找到并点击 **“激活 Cloud Shell” (Activate Cloud Shell)** 蓝色按钮。
 
-5. **通过后怎么确认**
-   * 返回 Mac 上的 Antigravity，等待页面刷新；必要时重新登录或再发一条测试消息。
-   * 能正常发送并收到回复，即表示验证与网络都已打通。
+   ![谷歌云激活 Cloud Shell 验证界面](./assets/antigravity/fatmouse/gcp-cloud-shell-activate.jpg)
 
-6. **扫码失败或反复出现二维码时**
-   * 确认手机 Google 账号正确、Play/Google 服务能打开、手机代理确实生效。
-   * 只扫电脑页面上**当前最新**二维码，==不要扫旧截图==。
-   * 若点验证后直接 `400` / `500`，多半是默认浏览器没登录目标 Google 账号：请在 macOS 中将默认浏览器改为已登录该账号的浏览器，或在弹出浏览器中重新登录。
+3. **选择填写手机号验证**：
+   勾选同意授权点击下一步，系统会弹出验证界面。在验证选项中点击 **“Verify your phone number” (填写手机号验证)**。
 
-> 🚨 **【严重风控警告：不要狂扫】**
-> 扫码多次失败时，==不要连续扫十几次硬刚==。高频失败很容易触发 Google 风控，账号可能被限制大约 ==7 天甚至更长（常见还有约一个月档）==。限制期间往往只能等待解除，再狂点也没有用。
-> 失败后先停手，检查设备、IP、账号一致性，隔一段时间再试。
+   ![选择通过手机号认证](./assets/antigravity/fatmouse/gcp-verify-phone-option.jpg)
 
-> 💡 **补充：** 即使步骤全对，仍有账号**天生难过扫码**的情况，带一点运气成分。若已确认环境无误却反复失败，先排除「扫太多次被风控」，==优先冷静等待约 7 天或一个月后再试==；仍不行再进售后群，或考虑远程（教程款可抵远程、远程不成可全退；**账号自身问题不退**，详见文末说明）。
+4. **输入国内手机号接收验证码**：
+   点击国旗列表选择 **China (中国 +86)**，在输入框填入自己的国内手机号，点击 Next 接收并填入 6 位短信验证码完成验证。
 
-> 💡 **仅供了解（非推荐主路径）：** 个别用户仍可能遇到短信类选项；国内号成功率很低，不是当前主流解法。本教程以扫码 + 原生 Google 框架手机为准。
+   ![选择中国国旗并输入国内手机号](./assets/antigravity/fatmouse/gcp-input-china-phone.jpg)
 
+   ![输入短信验证码](./assets/antigravity/fatmouse/gcp-input-sms-code.jpg)
+
+5. **回到 Antigravity 完成登录**：
+   * 短信验证成功后，回到 Antigravity 界面点击 `Verify` 按钮，浏览器会自动唤起并显示 **“身份验证成功”**！
+   
+     ![反重力点击 Verify 按钮](./assets/antigravity/fatmouse/antigravity-verify-btn.jpg)
+
+     ![网页显示身份验证成功](./assets/antigravity/fatmouse/google-auth-success-page.jpg)
+
+   * 接着回到 Antigravity 客户端，点击 `Sign in again` 按钮重新登录，即可顺利成功进入 Antigravity！
+
+     ![点击 Sign in again 重新登录](./assets/antigravity/fatmouse/antigravity-signin-again-btn.jpg)
+
+---
+
+### 📱 通道二：手机 Google App 内置扫码（“焚决”打法）
+
+1. **扫码前先对齐环境**：
+   * 手机与 Mac 尽量使用**同一干净节点、同一出口 IP**。
+   * 准备 Android / iOS 手机，安装并登录 **Google App**（安卓手机需开启“谷歌基础服务”），登录相同的 Google 账号。
+
+2. **使用内置 Google Lens 扫码**：
+   * 打开 Google App，点击搜索框右侧的**相机/镜头图标 (Google Lens)** 扫描 Mac 屏幕上的验证二维码（==不要用微信或普通相机扫==）。
+
+   ![Google App 搜索框右侧的 Google 智能镜头入口](./assets/antigravity/fatmouse/google-app-lens-icon.jpg)
+
+3. **手机端确认**：
+   * 手机弹窗选择 **“是，继续”**。必须看到手机端屏幕最终显示 **“您现在已通过验证”** 才算真正成功！
+
+   ![手机端确认与验证成功界面](./assets/antigravity/fatmouse/google-app-verify-confirm.jpg)
+
+4. **死磕与重试机制**：
+   * 如果手机显示验证手机号或电脑显示失败，**切记不要放弃，连续多试几次（反重力点 Sign in again 重新扫码，反复试 7 次以上）**。若仍然不行，可尝试通道一。
+
+---
+
+### 🛡️ 补充工具：Antigravity Tools 开源账号管理（免第三方反代）
+
+为保障账号安全，避免使用危险的第三方反代导致封号，推荐使用开源的 [Antigravity Tools (Antigravity-Manager)](https://github.com/lbjlaq/Antigravity-Manager/releases)。下载后只需通过官方 OAuth 授权，即可实现多账号本地安全一键管理与切换。
+
+![Antigravity Tools Releases 下载](./assets/antigravity/fatmouse/tools-github-release.jpg)
+
+![Tools OAuth 授权界面](./assets/antigravity/fatmouse/tools-add-account-oauth.jpg)
+
+![Tools 最佳账号一键切换](./assets/antigravity/fatmouse/tools-best-account-switch.jpg)
 ---
 
 ## 五、极客专属：SSH 远程开发配置（非必选）
@@ -263,25 +298,25 @@ Antigravity IDE 和 Antigravity 2.0 的底层网络请求都可能不会完整�
 
 如果扩展面板默认提示正在使用 **Open VSX**，可能会出现插件搜索不全、下载很慢、甚至加载失败的情况。可以把扩展市场源切换为 VS Code 官方源。
 
-![扩展面板提示当前使用 Open VSX](/articles/antigravity/marketplace-open-vsx-notice.png)
+![扩展面板提示当前使用 Open VSX](./assets/antigravity/marketplace-open-vsx-notice.png)
 
 操作方法：
 
 1. 打开左侧 **扩展（Extensions）** 面板。
 2. 如果页面提示 `By default, Antigravity uses Open VSX as a marketplace. This can be changed in Antigravity settings.`，点击里面的 **Antigravity settings**。
 
-   ![点击 Antigravity settings 进入扩展市场设置](/articles/antigravity/marketplace-settings-link.png)
+   ![点击 Antigravity settings 进入扩展市场设置](./assets/antigravity/marketplace-settings-link.png)
 
 3. 在 `Editor -> Marketplace` 设置里，把下面两个地址分别填入对应输入框。
 
-   ![Marketplace 设置里的 Item URL 与 Gallery URL 输入框](/articles/antigravity/marketplace-url-settings-empty.png)
+   ![Marketplace 设置里的 Item URL 与 Gallery URL 输入框](./assets/antigravity/marketplace-url-settings-empty.png)
 
 ```copy-dashboard
 Marketplace Item URL: https://marketplace.visualstudio.com/items
 Marketplace Gallery URL: https://marketplace.visualstudio.com/_apis/public/gallery
 ```
 
-   ![填入 VS Code 官方扩展市场地址后的效果](/articles/antigravity/marketplace-url-settings-filled.png)
+   ![填入 VS Code 官方扩展市场地址后的效果](./assets/antigravity/marketplace-url-settings-filled.png)
 
 填完后，**彻底关闭并重新打开 Antigravity IDE**，再回到扩展面板搜索 `ssh`、`Remote - SSH` 等插件。正常情况下，搜索结果会切到 VS Code 官方插件市场，插件会更全，加载也更稳定。
 
@@ -303,6 +338,7 @@ Marketplace Gallery URL: https://marketplace.visualstudio.com/_apis/public/galle
 | 报错里出现 `code: 400` 且含 `User location is not supported` | 当前出口地区/节点不被 API 支持 | [**异常 3 地区 400**](#faq-chat-400) |
 | 验证成功后仍反复出现 `Verify / Sign in again` | 年龄验证或客户端登录状态未刷新 | 异常 4 |
 | 大字报错 `There was an unexpected issue setting up your account.` | 节点/登录状态/超时等综合问题 | 异常 5 |
+| 提示“您的身份无法被核实” / 需 Pixel 安全码 | 节点 IP 不够纯净 / 异地登录风控 | 异常 6 |
 | 扩展市场搜不到插件 | 默认 Open VSX 源不稳定 | 第五章扩展市场 |
 
 ### 异常 0：打开后不是 VS Code 界面，为什么和教程截图不一样？
@@ -319,7 +355,7 @@ Marketplace Gallery URL: https://marketplace.visualstudio.com/_apis/public/galle
 
    如果看到 `Sorry, this account is ineligible to use Antigravity`，这通常不是普通 Token 写入问题，而是账号资格、地区、年龄认证或官方准入校验没有通过。
 
-   ![账号无资格使用 Antigravity 的提示](/articles/antigravity/auth-ineligible-account.png)
+   ![账号无资格使用 Antigravity 的提示](./assets/antigravity/auth-ineligible-account.png)
 
    ==处理顺序（请按此先后）：先「地区与资格」，再「年龄认证」。不要先反复注入。==
 
@@ -329,14 +365,25 @@ Marketplace Gallery URL: https://marketplace.visualstudio.com/_apis/public/galle
 
    如果页面提示 `Sorry, this account is ineligible to use Antigravity`，并且下方显示 `Authentication failed`，可以按下面方式尝试修改 Google 账号注册地：
 
-   - **第 1 步**：先打开 Google 条款页查看当前账号关联地区：https://policies.google.com/terms。页面底部通常会显示当前账号对应的国家/地区；如果显示的是中国大陆、中国香港、中国澳门等受限地区，就需要继续处理。
-   - **第 2 步**：打开 Google 账号地区修改申请页：https://policies.google.com/country-association-form。
-   - **第 3 步**：将账号地区申请修改为 Antigravity 支持的地区，例如日本、新加坡、英国、加拿大等。**不建议一上来申请美国**，美国地区审核通常更严格；除非您确实长期使用美国节点并有明确美国地址，否则优先选择平时最稳定、最常用的代理节点所在地区。
+   - **第 1 步：查验账号当前关联地区**  
+     先打开 Google 服务条款页查看当前账号关联地区：[https://policies.google.com/terms](https://policies.google.com/terms)。页面底部会明确显示该账号关联的国家/地区。如果显示为中国大陆、中国香港等不支持区域，则必须修改。
 
-   ![Antigravity 支持地区参考](/articles/antigravity/supported-regions.jpg)
+     ![Google 服务条款底部查看账号关联地区](./assets/antigravity/fatmouse/google-terms-country.jpg)
 
-   - **第 4 步**：理由选择“其他”，说明自己因工作需要使用 Gemini / Antigravity，需要更新账号地区。
-   - **第 5 步**：提交后等待邮件通知，通常需要约 24 小时。地区生效后再重新打开 Antigravity 测试登录。
+   - **第 2 步：打开地区修改申请表单**  
+     访问 Google 官方地区更改申请页：[https://policies.google.com/country-association-form](https://policies.google.com/country-association-form)。
+
+     ![Google 账号关联地区更改申请表单](./assets/antigravity/fatmouse/google-country-change-form.jpg)
+
+   - **第 3 步：选择目标地区与提交方案**  
+     * **方案 A（快捷通过）**：在列表中选择您代理节点最常用的地区（如日本、新加坡、英国、加拿大等），勾选 **“我居住在此”** 并直接提交。
+       
+       ![选择居住在此提交](./assets/antigravity/fatmouse/google-country-change-option.jpg)
+
+     * **方案 B（申诉说明）**：若选择最后一个 **“以上都不是”**，可在留言框说明：“*我因工作需要用到 Gemini / Antigravity，请帮我更改账号地区到 xxx*”。
+
+   - **第 4 步：生效确认**  
+     *注意：Google 账号地区修改每年仅限申请 1 次。* 提交后等待邮件通知（通常 24 小时内生效），生效后再重新登录 Antigravity。
 
    如果您确实因长期在美国居住、工作，并使用美国本地设备和付款方式，可以参考下面的英文说明。请按真实情况填写，不要提交虚假的居住、付款或地址信息：
 
@@ -350,12 +397,23 @@ Thank you for your understanding and support.
 
    注意：Google 账号地区修改通常一年只能申请一次，提交前请确认目标地区和您长期使用的代理节点地区尽量一致，不要频繁乱改。
 
-   **处理建议 2（其次）：检查年龄认证**
+   **处理建议 2（其次）：人脸自拍年龄认证（解决 Verify -> Sign in again 无限循环）**
 
-   有时候即使账号看似正常，也可能因为未完成年龄认证而报错。请访问 [https://myaccount.google.com/age-verification](https://myaccount.google.com/age-verification) 检查并完成年龄验证。
-   * **验证方式推荐**：强烈建议优先使用**人脸验证**。您可以直接使用电脑摄像头完成；如果电脑没有摄像头，请选择手机扫码验证（页面会出现一个二维码），然后使用**已开启代理（梯子）的手机**扫码并按提示完成验证。
-   * **备选验证方式**：您也可以选择上传**身份证/护照照片**进行验证。
-   * **避坑指南**：**不建议**使用银行卡/信用卡进行验证，因为部分国内卡片可能无法通过预授权，容易导致验证失败。
+   如果网页提示“身份验证成功”，但回到反重力点击 `Sign in again` 后**仍无限循环弹出 Verify 要求**，100% 是因为账号没有通过 18 岁以上年龄认证！
+
+   * **第 1 步**：访问 Google 官方年龄认证专属页：[https://myaccount.google.com/age-verification](https://myaccount.google.com/age-verification)。
+   * **第 2 步**：推荐选择 **“Take a selfie / 自拍人脸识别”**（比提供信用卡或上传身份证更简单且成功率最高）。
+
+     ![选择 Take a selfie 自拍人脸识别](./assets/antigravity/fatmouse/google-age-verification-options.jpg)
+
+   * **第 3 步**：页面生成二维码或 Link 链接，复制链接或手机扫码在手机浏览器完成刷脸（实测一张脸可无限次刷通过，手机与 Mac 需挂同一代理节点）。
+
+     ![自拍人脸识别扫码与 Link 界面](./assets/antigravity/fatmouse/google-age-selfie-qr.jpg)
+
+   * **第 4 步**：当手机显示 **“Your age is verified”** 年龄验证成功后，回到 Antigravity 再次点击 `Verify` $
+ightarrow$ `Sign in again` 重新登录即可直接解决循环问题！
+
+     ![年龄验证成功界面](./assets/antigravity/fatmouse/google-age-verified-success.jpg)
 
 <a id="faq-oauth-network"></a>
 
@@ -363,7 +421,7 @@ Thank you for your understanding and support.
 
    如果看到大字报错 `There was an unexpected issue setting up your account.`，下方可能还带有 `Post "https://oauth2.googleapis.com/token"`、`connectex`、`failed to respond`、`connection attempt failed` 等详细信息，说明客户端请求 Google OAuth token 接口时没有走通网络。
 
-   ![OAuth token 接口连接失败，通常是网络未接管](/articles/antigravity/auth-oauth-network-timeout.jpeg)
+   ![OAuth token 接口连接失败，通常是网络未接管](./assets/antigravity/auth-oauth-network-timeout.jpeg)
 
    处理建议：回到第三章检查 Tun 是否真的开启、代理节点是否可用；如果使用 Antify，请确认 Antigravity IDE / Antigravity 2.0 应用本体已经加入规则。这个问题的重点是“网络没走上代理”，不是账号没资格。
 
@@ -373,7 +431,7 @@ Thank you for your understanding and support.
 
    如果客户端里显示 `There was an error with your authentication. To log in, click here`，更像是本地授权状态、Token 写入或客户端认证状态异常。
 
-   ![客户端提示 authentication 认证错误](/articles/antigravity/auth-token-injection-error.png)
+   ![客户端提示 authentication 认证错误](./assets/antigravity/auth-token-injection-error.png)
 
    处理建议：可以使用 Cockpit Tools 重新完成 OAuth 并写入本地状态。但新版官方仍可能继续检测账号资格、地区和 Token 状态，所以 Cockpit 只能作为本地授权辅助，不保证绕过官方服务端校验。
 
@@ -431,7 +489,7 @@ Thank you for your understanding and support.
 1. **年龄限制（常见于新号）**  
    Cockpit 角标红色 `unknown` 时，优先：https://myaccount.google.com/age-verification（建议人脸；证件备选；不建议银行卡硬验）。
 
-   ![Google 账号年龄验证方式选择页面](/articles/antigravity/fatmouse/google-age-verification-options.jpg)
+   ![Google 账号年龄验证方式选择页面](./assets/antigravity/fatmouse/google-age-verification-options.jpg)
 
 2. **多开/历史登录残留**  
    统一用 Cockpit Tools 规范切号/重登。
@@ -452,7 +510,7 @@ Thank you for your understanding and support.
 
 如果浏览器已经显示身份验证成功，但返回 Antigravity 后仍提示 `Further action is required`，或者点击 `Sign in again` 后再次回到 Verify 页面，请按下面顺序处理：
 
-![验证完成后需要重新登录 Antigravity 的界面](/articles/antigravity/fatmouse/verify-sign-in-again.jpg)
+![验证完成后需要重新登录 Antigravity 的界面](./assets/antigravity/fatmouse/verify-sign-in-again.jpg)
 
 1. 先确认 Google 账号的年龄验证已经真正完成，而不是只完成了二维码设备确认。
 2. 完全退出 Antigravity，包括活动监视器中的后台进程，再重新打开。
@@ -460,17 +518,33 @@ Thank you for your understanding and support.
 4. 如果仍然循环，清理浏览器中错误账号的登录状态，确认默认浏览器登录的是目标账号，并等待几分钟后再试。
 5. 仍无法通过时，再使用 Cockpit Tools 重新完成一次 OAuth；Cockpit 只能刷新本地授权状态，不能替代官方年龄和地区资格校验。
 
-### 异常 5：出现 `There was an unexpected issue setting up your account.`
+### 异常 5：出现 `There was an unexpected issue setting up your account.` (EOF / invalid_grant / 超时)
 
-只要界面大字是这句，就可以按本条处理（底下技术细节不必先死磕）。
+只要界面出现大字报错 `There was an unexpected issue setting up your account.`，均属于本条排查范围：
 
-![There was an unexpected issue setting up your account 类报错示例](/articles/antigravity/fatmouse/daily-cloudcode-eof.jpg)
+![There was an unexpected issue setting up your account 报错界面](./assets/antigravity/fatmouse/daily-cloudcode-eof.jpg)
 
-**优先按这个顺序排查：**
-1. **换干净稳定的节点**，并确认第三章网络方案真正接管了客户端（Tun 或 Antify 等只保留一套）。
-2. **彻底退出 Antigravity**（含活动监视器中的后台进程）后重新打开再登录。
-3. 若提示可换账号，选 `Continue with different account`，用目标 Google 账号重新走一遍 OAuth。
-4. 仍不行时，再用 Cockpit Tools 做一次本地授权刷新（不能绕过资格问题）。
+**故障根因与精准排查方案：**
+1. **`EOF` (`...onboardUser: EOF` / connectex)**：
+   * **根因**：节点质量太差、网络严重不稳定或未被 Tun 模式完全接管。
+   * **解决**：开启代理软件的 **Tun 模式 (全局接管)**，切换至质量更高的美区/日区纯净节点，关闭并重新打开 Antigravity，点击 `Continue with different account` 重新登录。
+2. **`invalid_grant`**：
+   * **根因**：账号的 OAuth 登录 Token 状态失效过期。
+   * **解决**：点击 `Continue with different account` 重新走一遍授权流程即可。
+3. **`context deadline exceeded`**：
+   * **根因**：请求响应超时。检查本地代理设置并换节点重试。
+
+---
+
+### 异常 6：提示“您的身份无法被核实 / 我们无法验证您的身份”（或需 Pixel 安全码风控）
+
+![无法验证您的身份 / Verify it's you](./assets/antigravity/fatmouse/google-verify-its-you-pixel.jpg)
+
+* **原因**：账号检测到异地登录或频繁变动出口 IP，触发了 Google 底层风控。
+* **三招避坑与解决方案**：
+  1. **检查与更换纯净 IP**：使用 [ping0.cc](https://ping0.cc) 或 [ippure.com](https://ippure.com) 检测代理节点的 IP 纯净度，优先选择美区住宅/家宽纯净 IP。
+  2. **7 天固定设备养号法**：保持固定电脑设备与固定纯净节点，连续使用 Google / Gemini 满 7 天，系统会自动将其升级为受信任的“常用设备”，风控自动解除。
+  3. **开通 Google 账户家庭组共享 Pro**：若有自己主号开通的 Pro，可通过家庭组邀请该账号加入共享会员（[邀请教程](https://ikunlove.best/gem)），直接用自己的主账号登录 Antigravity，彻底规避异地风控问题。
 
 > 补充：少数日志里会出现连接中断、授权过期、请求超时等字样，本质仍多半是**网络不稳 / 登录状态失效 / 超时**，按上面四步处理即可。
 
