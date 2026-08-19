@@ -80,16 +80,19 @@ Google 更新后，Antigravity 已经拆成多个产品。请先确认自己正�
 
 ## 三、必做：macOS 网络环境配置（二选一） {#network-config}
 
-> ⚠️ **【重要特征识别 · 出现此报错必看本章】**  
-> 如果您在登录时弹出了 **`There was an unexpected issue setting up your account.`**（如下图所示），或者提示 `oauth2.googleapis.com 连接超时`、`EOF`、`daily-cloudcode 请求失败`：
+> ⚠️ **【重要特征识别 · 出现此报错必看本章】**
+>
+> 如果您在登录阶段遇到了如下图所示的 **`There was an unexpected issue setting up your account.`**，或提示 `oauth2.googleapis.com 连接超时` / `EOF` / `daily-cloudcode 请求失败`：
+>
+> * 🚨 **核心本质**：==100% 说明客户端根本没有走通代理网络==（浏览器能上外网不代表客户端已接管）。
+> * ⚠️ **操作禁忌**：此时==千万不要反复注入账号或狂点登录==，必须先按本章配置好网络！
 > 
-> <img src="./assets/antigravity/auth-oauth-network-timeout.jpeg" width="360" style="border-radius:10px; border:1px solid #fed7aa; display:block; margin:8px 0;">
-> 
-> **🚨 本质原因：这 100% 说明您的客户端根本没有走通代理网络（网络未接管/连接超时）！**  
-> ⚠️ **【切记】此时千万不要反复注入账号或反复点登录**，请务必严格按照本章的**两种网络方案（强烈推荐首选方案 A：Tun 模式）**完成底层网络配置，确保客户端流量真正被代理接管后再登录！
+> ![登录网络超时报错：There was an unexpected issue setting up your account](./assets/antigravity/auth-oauth-network-timeout.jpeg)
 
 **原理解析：为什么不能直接连？**
-Antigravity IDE 和 Antigravity 2.0 的底层网络请求都不会完整接管 macOS 的常规"系统代理"流量。这意味着即便您的浏览器能正常打开 Google 首页，客户端本体依然处于断网超时状态，直接导致登录弹出 `There was an unexpected issue setting up your account`。因此，必须通过虚拟网卡（Tun 模式）或 Antify 强制接管底层流量。
+Antigravity IDE 和 Antigravity 2.0 的底层网络请求都不会完整接管 macOS 的常规系统代理流量。这意味着即便您的浏览器能正常打开 Google 首页，客户端本体依然处于断网状态，直接导致登录弹出 `There was an unexpected issue setting up your account`。因此，必须通过虚拟网卡（Tun 模式）或 Antify 强制接管底层流量。
+
+我们为您提供两套解决方案（==强烈推荐首选方案 A：Tun 模式==）：
 
 ### 方案 A：全局流量接管（Tun 模式虚拟网卡）—— 首选极简方案
 
