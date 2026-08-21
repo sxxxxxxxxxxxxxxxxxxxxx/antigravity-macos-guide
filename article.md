@@ -292,7 +292,58 @@ Antigravity IDE 和 Antigravity 2.0 的底层网络请求都不会完整接管 m
 ![Tools 最佳账号一键切换](./assets/antigravity/fatmouse/tools-best-account-switch.jpg)
 ---
 
-## 五、极客专属：SSH 远程开发配置（非必选）
+---
+
+## 五、 界面汉化：Antigravity IDE 与 2.0 中文化指南 {#faq-localization}
+
+很多用户反馈打开客户端后全是英文，不知道如何切换为中文界面。由于 **Antigravity IDE** 和 **Antigravity 2.0** 采用了完全不同的底层架构，两者的汉化方式不同，请根据您使用的版本选择对应的汉化方案：
+
+---
+
+### 🌟 方案一：Antigravity 2.0 界面汉化（开源一键 ASAR 注入补丁）
+
+> 💡 **原理简介**：Antigravity 2.0 采用全新的 Electron 独立桌面架构，官方目前尚未在设置中内置语言切换选项。社区开发者开源了专用的汉化套件 [qqxpee/antigravity2-cn](https://github.com/qqxpee/antigravity2-cn)，基于 ASAR 物理层动态包注入机制，完美汉化软件主界面、系统菜单、任务栏托盘及设置面板，支持**一键极速安装**与**无损还原**。
+
+#### 1. 下载汉化包
+1. 访问开源项目页面：[qqxpee/antigravity2-cn (GitHub 官方仓库)](https://github.com/qqxpee/antigravity2-cn)
+2. 点击页面右上角绿色的 **Code** 按钮，在下拉菜单中选择 **Download ZIP** 下载压缩包。
+3. 将下载好的压缩包解压到您电脑本地任意文件夹（例如您的 `Downloads` 或 `桌面`）。
+
+#### 2. 一键安装汉化
+1. **完全退出** 正在运行的 Antigravity 软件（可在活动监视器中确认无后台残留进程）。
+2. 打开刚才解压出来的 `antigravity2-cn` 文件夹，双击运行 **`双击安装中文汉化.command`**。
+3. 终端黑框会弹出提示，按需输入数字选择左上角品牌名称展示方式：
+   * `1`（默认推荐）：保留英文 `Antigravity` 官方品牌名，界面最协调。
+   * `2`：隐藏左上角品牌文字。
+   * `3`：显示中文品牌名 `反重力智能编程`。
+4. 脚本执行完毕后，重新打开 Antigravity 2.0 软件，即可畅享全中文界面！
+
+#### 3. 一键卸载与无痕还原官方英文
+如果后续软件官方大版本更新，或者您想恢复官方原版英文：
+1. 完全退出 Antigravity 客户端。
+2. 回到 `antigravity2-cn` 文件夹，双击运行 **`双击卸载还原官方英文.command`**。
+3. 软件即可瞬间恢复至官方原版英文状态，不留任何注入痕迹。
+
+---
+
+### 🌟 方案二：Antigravity IDE 界面汉化（官方 VS Code 简体中文语言包）
+
+> 💡 **原理简介**：Antigravity IDE 基于 VS Code 框架构建，可以直接通过扩展市场安装微软官方维护的中文简体语言包。
+
+#### 1. 安装微软官方语言包
+1. 点击左侧边栏的 **扩展（Extensions）** 图标（快捷键 `Cmd+Shift+X`）。
+2. 在顶部搜索框中输入 **`Chinese`**。
+3. 找到并点击安装由 Microsoft 维护的 **`Chinese (Simplified) (简体中文) Language Pack for Visual Studio Code`**（插件标识符：`ms-ceintl.vscode-language-pack-zh-hans`）。
+
+#### 2. 配置显示语言为简体中文
+1. 按下快捷键 **`Cmd+Shift+P`** 调出顶部全局命令面板。
+2. 在输入框输入 **`display`** 或 **`Configure Display Language`** 并按回车。
+3. 在弹出的语言列表中，选择 **`zh-cn`（中文简体）**。
+4. 右下角会提示需重启客户端生效，点击 **Restart** 重新启动 Antigravity IDE，即可完成全中文切换！
+
+---
+
+## 六、极客专属：SSH 远程开发配置（非必选）
 
 > **技术建议**：本节主要面向 Antigravity IDE。Antigravity 2.0 已经是新的独立 Agent 桌面应用，不再是传统 VS Code 风格 IDE；如果您使用的是 2.0，请优先查看它自己的项目、权限和终端相关功能，不要强行套用旧版扩展面板截图。普通用户请直接跳过本节。
 
@@ -335,10 +386,11 @@ Marketplace Gallery URL: https://marketplace.visualstudio.com/_apis/public/galle
 
 ---
 
-## 六、遇到问题先看这里：常见疑难杂症 (Troubleshooting)
+## 七、遇到问题先看这里：常见疑难杂症 (Troubleshooting)
 
 | 您看到的情况 | 优先判断 | 先看哪一段 |
 | --- | --- | --- |
+| 客户端全是英文 / 如何汉化为中文 | 2.0 使用开源注入脚本 / IDE 安装微软中文包 | [第五章：界面汉化](#faq-localization) |
 | 打开后不是 VS Code 那种界面 | 装成了 Antigravity 2.0，或旧版更新到了 2.0 | 异常 0 |
 | `Sorry, this account is ineligible to use Antigravity` | 账号地区/资格/年龄/订阅问题 | 异常 0.5 的账号没资格 |
 | `There was an unexpected issue setting up your account.`、登录一直转圈 | 网络没真正走代理 | **第三章网络配置**（亦可看异常 0.5 的 OAuth 说明） |
@@ -579,7 +631,7 @@ TraceID: 0xd0732eb5227e8b44
 
 ---
 
-## 七、技术支持与结语
+## 八、技术支持与结语
 
 如果您**严格按上述流程操作**，绝大多数情况下登录与使用问题都能解决。按教程把网络、环境、步骤做对，**正常可用是大概率事件**；若仍然用不了，多半是**账号自身异常**或**操作步骤有偏差**，而不是教程“没用”。对电脑不太熟练的用户，也可以直接联系客服下单**远程协助**，由专业人士一对一处理。若您的环境特别复杂（企业网管、多 VPN 叠加、权限策略等），更适合走远程个案排查。感谢您的支持！
 
