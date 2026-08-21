@@ -533,8 +533,7 @@ Thank you for your understanding and support.
 
      ![自拍人脸识别扫码与 Link 界面](./assets/antigravity/fatmouse/google-age-selfie-qr.jpg)
 
-   * **第 4 步**：当手机显示 **“Your age is verified”** 年龄验证成功后，回到 Antigravity 再次点击 `Verify` $
-ightarrow$ `Sign in again` 重新登录即可直接解决循环问题！
+   * **第 4 步**：当手机显示 **“Your age is verified”** 年龄验证成功后，回到 Antigravity 再次点击 `Verify` ➔ `Sign in again` 重新登录即可直接解决循环问题！
 
      ![年龄验证成功界面](./assets/antigravity/fatmouse/google-age-verified-success.jpg)
 
